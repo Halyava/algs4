@@ -11,6 +11,7 @@ import java.util.Random;
  * @author Dmitryi
  */
 public class PercolationStats {
+    private static boolean log = false;
     private double[] openedSites;
     private int gridSize;
     private int expNumber;
@@ -20,20 +21,38 @@ public class PercolationStats {
      */
     public PercolationStats(int N, int T)
     {
+        if (N <= 0 || T <= 0) throw new java.lang.IllegalArgumentException();
+        
         openedSites = new double[N];
         gridSize = N;
         expNumber = T;
         
         for (int i = 0; i < T; i++)
         {
+            Out f = null;
+            if (log)
+            {
+                f = new Out(N + "x" + T + "-" + i + ".txt");
+                f.println(N);
+            }
+            
             boolean isPercolate = false;
             Percolation p = new Percolation(N);
             Random rowGen = new Random();
             Random colGen = new Random();
             while (!isPercolate)
             {
-                
+                int row = rowGen.nextInt(gridSize) + 1;
+                int col = colGen.nextInt(gridSize) + 1;
+                if (!p.isOpen(row, col))
+                {
+                    p.open(row, col);
+                    openedSites[i] += 1;
+                    isPercolate = p.percolates();
+                    if (log) f.println(row + " " + col);
+                }
             }
+            openedSites[i] = openedSites[i] / (gridSize * gridSize);
         }
     }
 
@@ -55,7 +74,14 @@ public class PercolationStats {
         double total = Double.NaN;
         if (expNumber > 1)
         {
+            total = 0.0;
             double mean = mean();
+            for (int i = 0; i < expNumber; i++)
+            {
+                double val = openedSites[i] - mean;
+                total += val * val;
+            }
+            total = Math.pow(total / (expNumber - 1), 0.5);
         }
         return total;
     }
@@ -65,7 +91,7 @@ public class PercolationStats {
      */
     public double confidenceLo()
     {
-        return Double.NaN;
+        return mean() - 1.96 * stddev() / Math.pow(expNumber, 0.5);
     }
     
     /*
@@ -73,7 +99,7 @@ public class PercolationStats {
      */
     public double confidenceHi()
     {
-        return Double.NaN;
+        return mean() + 1.96 * stddev() / Math.pow(expNumber, 0.5);
     }
     
     /*
@@ -81,5 +107,18 @@ public class PercolationStats {
      */
     public static void main(String[] args)
     {
+        int N = 0;
+        int T = 0;
+        if (args.length >= 2)
+        {
+            N = Integer.parseInt(args[0]);
+            T = Integer.parseInt(args[1]);
+            log = args.length == 3;
+        }
+        
+        PercolationStats ps = new PercolationStats(N, T);
+        StdOut.println("mean                    = " + ps.mean());
+        StdOut.println("stddev                  = " + ps.stddev());
+        StdOut.println("95% confidence interval = " + ps.confidenceLo() + ", " + ps.confidenceHi());
     }
 }
