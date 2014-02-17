@@ -1,4 +1,3 @@
-
 import java.util.Random;
 
 /*
@@ -23,9 +22,9 @@ public class PercolationStats {
     {
         if (N <= 0 || T <= 0) throw new java.lang.IllegalArgumentException();
         
-        openedSites = new double[N];
-        gridSize = N;
         expNumber = T;
+        openedSites = new double[expNumber];
+        gridSize = N;
         
         for (int i = 0; i < T; i++)
         {
@@ -62,7 +61,10 @@ public class PercolationStats {
     public double mean()
     {
         double total = 0.0;
-        for (int i = 0; i < expNumber; i++) total += openedSites[i];
+        for (int i = 0; i < expNumber; i++)
+        {
+            total += openedSites[i];
+        }
         return total / expNumber;
     }
     
