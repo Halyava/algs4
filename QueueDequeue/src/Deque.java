@@ -1,21 +1,28 @@
 
 import java.util.Iterator;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author Dmitryi
  */
 public class Deque<Item> implements Iterable<Item> {
+    
+    private Node first;
+    private Node last;
+    private int size = 0;
+    
+    private class Node
+    {
+        Item data;
+        Node next;
+    }
+    
     /*
      * Construct an empty deque
      */
     public Deque()
     {
+        last = first = new Node();
     }
     
     /*
@@ -23,7 +30,7 @@ public class Deque<Item> implements Iterable<Item> {
      */
     public boolean isEmpty()
     {
-        return false;
+        return size == 0;
     }
     
     /*
@@ -31,7 +38,7 @@ public class Deque<Item> implements Iterable<Item> {
      */
     public int size()
     {
-        return -1;
+        return size;
     }
     
     /*
@@ -39,6 +46,20 @@ public class Deque<Item> implements Iterable<Item> {
      */
     public void addFirst(Item item)
     {
+        if (size < 1)
+        {
+            last = first = new Node();
+            first.data = item;
+            first.next = null; 
+        }
+        else
+        {
+            Node newFirst =new Node();
+            newFirst.data = item;
+            newFirst.next = first;
+            first = newFirst;
+        }
+        size++;
     }
 
     /*
@@ -46,6 +67,21 @@ public class Deque<Item> implements Iterable<Item> {
      */
     public void addLast(Item item)
     {
+        if (size < 1)
+        {
+            last = first = new Node();
+            first.data = item;
+            first.next = null; 
+        }
+        else
+        {
+            Node newLast =new Node();
+            newLast.data = item;
+            newLast.next = null;
+            last.next = newLast;
+            last = newLast;
+        }
+        size++;
     }
     
     /*
@@ -53,6 +89,7 @@ public class Deque<Item> implements Iterable<Item> {
      */
     public Item removeFirst()
     {
+        size--;
         return null;
     }
     
@@ -61,6 +98,7 @@ public class Deque<Item> implements Iterable<Item> {
      */
     public Item removeLast()
     {
+        size--;
         return null;
     }
     
