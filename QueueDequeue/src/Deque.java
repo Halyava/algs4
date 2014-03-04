@@ -13,50 +13,50 @@ public class Deque<Item> implements Iterable<Item> {
     
     private class Node
     {
-        private Item data;
-        private Node next;
-        private Node prev;
+        private Item itemData;
+        private Node nextNode;
+        private Node prevNode;
 
         /**
          * @return the data
          */
         public Item getData() {
-            return data;
+            return itemData;
         }
 
         /**
          * @param data the data to set
          */
         public void setData(Item data) {
-            this.data = data;
+            this.itemData = data;
         }
 
         /**
          * @return the next
          */
         public Node getNext() {
-            return next;
+            return nextNode;
         }
 
         /**
          * @param next the next to set
          */
         public void setNext(Node next) {
-            this.next = next;
+            this.nextNode = next;
         }
 
         /**
          * @return the prev
          */
         public Node getPrev() {
-            return prev;
+            return prevNode;
         }
 
         /**
          * @param prev the prev to set
          */
         public void setPrev(Node prev) {
-            this.prev = prev;
+            this.prevNode = prev;
         }
     }
     
@@ -153,6 +153,7 @@ public class Deque<Item> implements Iterable<Item> {
         else
         {
             first = null;
+            last = null;
         }
         size--;
         Item item = firstNode.getData();
@@ -178,6 +179,7 @@ public class Deque<Item> implements Iterable<Item> {
         }
         else
         {
+            first = null;
             last = null;
         }
         Item item = lastNode.getData();
@@ -228,7 +230,8 @@ public class Deque<Item> implements Iterable<Item> {
 
     private void addFirstItem(Item item)
     {
-        last = first = new Node();
+        first = new Node();
+        last = first;
         first.setData(item);
         first.setNext(null);
         first.setPrev(null);

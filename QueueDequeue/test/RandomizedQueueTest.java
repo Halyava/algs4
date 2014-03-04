@@ -132,15 +132,14 @@ public class RandomizedQueueTest {
         System.out.println("                 N seconds");
         System.out.println("--------------------------");
         
-        for (int test = 1; test <=9; test++)
+        for (int test = 1; test <=8; test++)
         {
             N = N * 4;
-            Random r = new Random();
             RandomizedQueue instance = new RandomizedQueue();
             Stopwatch w = new Stopwatch();
             for (int i = 0; i < N; i++)
             {
-                int val = r.nextInt(5);
+                int val = StdRandom.uniform(5);
                 Object expResult = i;
                 switch (val)
                 {

@@ -1,6 +1,5 @@
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.Random;
 
 /*
  * To change this template, choose Tools | Templates
@@ -13,6 +12,7 @@ import java.util.Random;
  */
 public class RandomizedQueue<Item> implements Iterable<Item> {
     private int size = 0;
+    private int upSize = 0;
     private Item[] items;
     
     /*
@@ -50,6 +50,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
         items[size] = item;
         size++;
+        upSize++;
 
         if (size >= items.length)
         {
@@ -67,13 +68,16 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             throw new java.util.NoSuchElementException();
         }
         
-        int position = new Random().nextInt(size);
-        
+        int position = StdRandom.uniform(size);
+
         Item item = items[position];
         items[position] = null;
-        for (int i = position + 1; i < items.length; i++)
+        if (position < size - 1)
         {
-            items[i - 1] = items[i];
+            for (int i = position + 1; i < items.length; i++)
+            {
+                items[i - 1] = items[i];
+            }
         }
         size--;
         
@@ -94,8 +98,12 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             throw new java.util.NoSuchElementException();
         }
         
-        int position = new Random().nextInt(size);
-        return items[position];
+        int position = 0;
+        Item item = null;
+        position = StdRandom.uniform(size);
+
+        item = items[position];
+        return item;
     }
     
     /*
@@ -108,27 +116,34 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     private void growArray()
     {
-        Item[] newItems = (Item[]) new Object[items.length * 2];
-        for (int i = 0; i < items.length; i++)
-        {
-            newItems[i] = items[i];
-        }
-        items = newItems;
-    }
-    
-    private void shrinkArray()
-    {
-        Item[] newItems = (Item[]) new Object[items.length / 2];
-        int j = 0;
+        upSize = 0;
+        Item[] newItems = (Item[]) new Object[items.length + 20];
         for (int i = 0; i < items.length; i++)
         {
             if (items[i] != null)
             {
-                newItems[j] = items[i];
-                j++;
+                newItems[i] = items[i];
+                upSize++;
             }
         }
         items = newItems;
+        size = upSize;
+    }
+    
+    private void shrinkArray()
+    {
+        upSize = 0;
+        Item[] newItems = (Item[]) new Object[items.length / 2 + 1];
+        for (int i = 0; i < items.length; i++)
+        {
+            if (items[i] != null)
+            {
+                newItems[upSize] = items[i];
+                upSize++;
+            }
+        }
+        items = newItems;
+        size = upSize;
     }
 
     /*
@@ -153,7 +168,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
                 throw new NoSuchElementException();
             }
 
-            position = new Random().nextInt(size);
+            position = StdRandom.uniform(size);
             Item item = items[position];
             return item;
         }

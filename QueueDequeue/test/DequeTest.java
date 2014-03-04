@@ -129,4 +129,27 @@ public class DequeTest {
         Object result = instance.removeFirst();
         assertEquals(item, result);
     }
+
+    /**
+     * Check iterator() after intermixed calls to addFirst(), addLast(), removeFirst(), and removeLast()
+     */
+    @Test
+    public void testCheckIterator() {
+        System.out.println("CheckIterator");
+        Deque instance = new Deque();
+        instance.addLast("aysb");
+        instance.removeFirst();
+        instance.addLast("aywer");
+        instance.addFirst("arfsb");
+        instance.removeLast();
+        instance.removeLast();
+        int size = 0;
+        Iterator it = instance.iterator();
+        while (it.hasNext())
+        {
+            it.next();
+            size++;
+        }
+        assertEquals(0, size);
+    }
 }
