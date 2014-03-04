@@ -19,7 +19,7 @@ public class Subset {
         
         for (int i = 0; i < k; i++)
         {
-            StdOut.println(rq.sample());
+            StdOut.println(rq.dequeue());
         }
     }
 }

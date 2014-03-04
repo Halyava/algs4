@@ -69,15 +69,19 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         
         int position = new Random().nextInt(size);
         
-        Item i = items[position];
+        Item item = items[position];
         items[position] = null;
+        for (int i = position + 1; i < items.length; i++)
+        {
+            items[i - 1] = items[i];
+        }
         size--;
         
         if (size < items.length /4 + 1)
         {
             shrinkArray();
         }
-        return i;
+        return item;
     }
     
     /*
@@ -148,8 +152,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             {
                 throw new NoSuchElementException();
             }
+
+            position = new Random().nextInt(size);
             Item item = items[position];
-            position++;
             return item;
         }
 
