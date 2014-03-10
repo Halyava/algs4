@@ -19,18 +19,24 @@ public class Brute {
            position = 0;
            do
            {
-               int segmentLength = 0;
-               Point p = points[position];
-               Point lastPoint = null;
-               for (int i = position+1; i< pointCount; i++)
-               {
+                Point p = points[position];
+                Point p1 = points[position + 1];
+                Point p2 = points[position + 2];
+                Point p3 = points[position + 3];
+                boolean drawSegment = true;
+                double s1 = p.slopeTo(p1);
+                double s2 = p.slopeTo(p2);
+                double s3 = p.slopeTo(p3);
+                drawSegment = drawSegment && s1 == s2 && s1 == s3;
+                if (drawSegment)
+                {
+                    p.drawTo(p3);
+                    StdOut.printf("%s -> %s -> %s -> %s%n", p, p1, p2, p3);
+                }
                    
-               }
-               if (segmentLength > 4) p.drawTo(lastPoint);
-                   
-               position++;
+                position++;
            }
-           while (position < pointCount - 4);
+           while (position < pointCount - 3);
        }
    }
 }

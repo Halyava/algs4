@@ -63,7 +63,7 @@ public class Point implements Comparable<Point> {
         }
         else
         {
-            slope = (that.y - y)/(that.x - x);
+            slope = (1.0 * that.y - y)/(that.x - x);
         }
         return slope;
     }
@@ -74,9 +74,24 @@ public class Point implements Comparable<Point> {
         if (y == that.y)
         {
             if (x == that.x) return 0;
-            return x > that.x ? +1 : -1;
+            if (x > that.x)
+            {
+                return +1;
+            }
+            else
+            {
+                return -1;
+            }
         }
-        return y > that.y ? +1 : -1;
+        
+        if (y > that.y)
+        {
+            return +1;
+        }
+        else
+        {
+            return -1;
+        }
     }
 
     // return string representation of this point

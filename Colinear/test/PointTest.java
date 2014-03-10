@@ -55,8 +55,8 @@ public class PointTest {
     @Test
     public void testSlopeToVerticalSegment() {
         System.out.println("slopeTo -> VerticalSegment");
-        Point that = new Point(100, 100);
-        Point instance = new Point(100, 150);
+        Point that = new Point(100, 150);
+        Point instance = new Point(100, 100);
         double expResult = Double.POSITIVE_INFINITY;
         double result = instance.slopeTo(that);
         assertEquals(expResult, result, 0.0);
@@ -83,7 +83,7 @@ public class PointTest {
         System.out.println("slopeTo");
         Point that = new Point(100, 120);
         Point instance = new Point(150, 100);
-        double expResult = (120 - 100)/(100 - 150);
+        double expResult = (120.0 - 100)/(100 - 150);
         double result = instance.slopeTo(that);
         assertEquals(expResult, result, 0.0);
     }
