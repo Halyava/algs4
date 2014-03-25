@@ -71,27 +71,21 @@ public class Point implements Comparable<Point> {
     // is this point lexicographically smaller than that one?
     // comparing y-coordinates and breaking ties by x-coordinates
     public int compareTo(Point that) {
-        if (y == that.y)
+        // the invoking point (x0, y0) is less than the argument point (x1, y1)
+        // if and only if either y0 < y1 or if y0 = y1 and x0 < x1.
+        int result = 0;
+        if (y != that.y || x != that.x)
         {
-            if (x == that.x) return 0;
-            if (x > that.x)
+            if (y < that.y || (y == that.y && x < that.x))
             {
-                return +1;
+                result = -1;
             }
             else
             {
-                return -1;
+                result = 1;
             }
         }
-        
-        if (y > that.y)
-        {
-            return +1;
-        }
-        else
-        {
-            return -1;
-        }
+        return result;
     }
 
     // return string representation of this point
@@ -105,10 +99,42 @@ public class Point implements Comparable<Point> {
         /* YOUR CODE HERE */
     }
     
-    private static class BySlope implements Comparator<Point>
+    private class BySlope implements Comparator<Point>
     {
-        public int compare(Point t, Point t1) {
-            return t.compareTo(t1);
+        public int compare(Point t, Point t1)
+        {
+            /*
+             * Formally, the point (x1, y1) is less than the point (x2, y2)
+             * if and only if the slope (y1 − y0) / (x1 − x0) is less than the
+             * slope (y2 − y0) / (x2 − x0). Treat horizontal, vertical,
+             * and degenerate line segments as in the slopeTo() method.
+             */
+            double s1 = slopeTo(t);
+            double s2 = slopeTo(t1);
+            if (t.x == t1.x)
+            {
+                if (t.y == t1.y)
+                {
+                    return 1;
+                }
+            }
+            else if (t.y == t1.y)
+            {
+                return 0;
+            }
+            if (s1 < s2)
+            {
+                return -1;
+            }
+            else// if (s1 > s2)
+            {
+                return 1;
+            }
+/*            else
+            {
+                return t.compareTo(t1);
+            }
+*/
         }
         
     }

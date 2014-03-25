@@ -831,13 +831,6 @@ is divided into following sections:
                     </chainedmapper>
                 </pathconvert>
                 <taskdef classname="org.netbeans.modules.java.j2seproject.copylibstask.CopyLibs" classpath="${libs.CopyLibs.classpath}" name="copylibs"/>
-                <copylibs compress="${jar.compress}" excludeFromCopy="${copylibs.excludes}" index="${jar.index}" indexMetaInf="${jar.index.metainf}" jarfile="${dist.jar}" manifest="@{manifest}" rebase="${copylibs.rebase}" runtimeclasspath="${run.classpath.without.build.classes.dir}">
-                    <fileset dir="${build.classes.dir}" excludes="${dist.archive.excludes}"/>
-                    <manifest>
-                        <attribute name="Class-Path" value="${jar.classpath}"/>
-                        <customize/>
-                    </manifest>
-                </copylibs>
             </sequential>
         </macrodef>
     </target>
@@ -1292,10 +1285,7 @@ is divided into following sections:
         <fail unless="test.includes">Must select some files in the IDE or set test.includes</fail>
         <j2seproject3:test excludes="" includes="${test.includes}" testincludes="${test.includes}"/>
     </target>
-    <target depends="init,compile-test-single,-pre-test-run-single,-do-test-run-single" if="have.tests" name="-post-test-run-single">
-        <fail if="tests.failed" unless="ignore.failing.tests">Some tests failed; see details above.</fail>
-    </target>
-    <target depends="init,compile-test-single,-pre-test-run-single,-do-test-run-single,-post-test-run-single" description="Run single unit test." name="test-single"/>
+    <target depends="init,compile-test-single,-pre-test-run-single,-do-test-run-single" description="Run single unit test." name="test-single"/>
     <target depends="init,compile-test-single,-pre-test-run-single" if="have.tests" name="-do-test-run-single-method">
         <fail unless="test.class">Must select some files in the IDE or set test.class</fail>
         <fail unless="test.method">Must select some method in the IDE or set test.method</fail>

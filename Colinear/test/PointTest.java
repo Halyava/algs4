@@ -113,4 +113,35 @@ public class PointTest {
         int result = instance.compareTo(that);
         assertEquals(expResult, result);
     }
+
+    /**
+     * Test of compareTo method, of class Point.
+     */
+    @Test
+    public void testComparator() {
+        Object[][] data = getData();
+        for (int i = 0; i < data.length; i++)
+        {
+            Point p = (Point)data[i][0];
+            Point q = (Point)data[i][1];
+            Point r = (Point)data[i][2];
+            int expResult = (int)data[i][3];
+            int result = p.SLOPE_ORDER.compare(q, r);
+            System.out.println("Comparator: p " + p + "; q " + q + "; r " + r);
+            assertEquals(expResult, result);
+        }
+    }
+    
+    private Object[][] getData()
+    {
+        return new Object[][]{
+            {new Point(20757, 7239), new Point(1719, 23770), new Point(26563, 6829), new Integer(-1)},
+            {new Point(342, 380), new Point(23, 449), new Point(82, 87), new Integer(-1)},
+            {new Point(25156, 26527), new Point(23377, 5093), new Point(16857, 7508), new Integer(1)},
+            {new Point(5, 0), new Point(1, 9), new Point(6, 7), new Integer(-1)},
+            {new Point(134, 434), new Point(380, 425), new Point(380, 425), new Integer(1)},
+            {new Point(164, 244), new Point(473, 84), new Point(444, 337), new Integer(1)},
+            {new Point(164, 244), new Point(444, 337), new Point(473, 84), new Integer(1)},
+        };
+    }
 }
