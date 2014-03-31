@@ -25,6 +25,7 @@ public class Percolation {
     private boolean[][] sites;
     private int gridSize;
     private WeightedQuickUnionUF uf;
+    private int bottom;
     
     /**
      * Initializes a percolation data structure with N * N blocked sites.
@@ -37,7 +38,8 @@ public class Percolation {
 
         gridSize = N;
         sites = new boolean[N][N];
-        uf = new WeightedQuickUnionUF(N * N + 1);
+        uf = new WeightedQuickUnionUF(N * N + 2);
+        bottom = N * N + 1;
     }
     
     /* Open site if it is not already opened.
@@ -94,17 +96,7 @@ public class Percolation {
      */
     public boolean percolates()
     {
-        for (int col = 1; col <= gridSize; col++)
-        {
-            if (isOpen(gridSize, col))
-            {
-                if (uf.connected(0, xyToID(gridSize, col)))
-                {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return uf.connected(0, bottom);
     }
     
     private int xyToID(int row, int col)
